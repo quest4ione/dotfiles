@@ -74,12 +74,18 @@
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  environment.systemPackages = with pkgs; [
-    wget
-    helix
-    git
-  ];
 
+  environment = {
+    systemPackages = with pkgs; [
+      wget
+      helix
+      git
+    ];
+
+    variables = {
+      VISUAL = "hx";
+    };
+  };
   users.users.quest = {
     isNormalUser = true;
     description = "quest";
