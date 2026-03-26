@@ -52,6 +52,19 @@
     pulse.enable = true;
   };
 
+  services.power-profiles-daemon.enable = false;
+  # services.tlp.enable = true;
+  # powerManagement.enable = true;
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      turbo = "never";
+    };
+    charger = {
+      turbo = "never";
+    };
+  };
+
   services.flatpak.enable = true;
 
   services.keyd = {
