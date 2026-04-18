@@ -6,45 +6,42 @@
       ./hardware-configuration.nix
     ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos";
+  networking.hostName = "quest-laptop";
   networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true;
+  hardware.enableAllFirmware = true;
 
   time.timeZone = "Europe/Amsterdam";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
     LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
     LC_TIME = "nl_NL.UTF-8";
   };
 
+  # TODO: am i using this?
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
-
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   services.printing.enable = true;
 
   services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  security.rtkit.enable = true; # used by pulseaudio
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -52,9 +49,9 @@
     pulse.enable = true;
   };
 
+  # search.nixos.org says this is disabled by default...
   services.power-profiles-daemon.enable = false;
-  # services.tlp.enable = true;
-  # powerManagement.enable = true;
+
   services.auto-cpufreq.enable = true;
   services.auto-cpufreq.settings = {
     battery = {
@@ -85,33 +82,29 @@
   programs.firefox.enable = true;
   programs.thunderbird.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   environment = {
     systemPackages = with pkgs; [
       wget
       helix
       git
     ];
-
     variables = {
       VISUAL = "hx";
     };
   };
+
   users.users.quest = {
     isNormalUser = true;
     description = "quest";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      helix
       discord
       spotify
       prismlauncher
       osu-lazer-bin
       libreoffice
       kitty
+      numbat
     ];
   };
 

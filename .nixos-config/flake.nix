@@ -7,7 +7,8 @@
 
   outputs = inputs@{ nixpkgs, ... }: {
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      quest-laptop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
           ./configuration.nix
         ];
