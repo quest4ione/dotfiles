@@ -87,6 +87,21 @@
       wget
       helix
       git
+      alacritty
+      wl-clipboard
+    ];
+    plasma6.excludePackages = with pkgs.kdePackages; [
+      discover
+      konsole
+      drkonqi
+      elisa
+      gwenview
+      khelpcenter
+      kate
+      kinfocenter
+      okular
+      pkgs.xterm
+      kmenuedit
     ];
     variables = {
       VISUAL = "hx";
@@ -103,7 +118,6 @@
       prismlauncher
       osu-lazer-bin
       libreoffice
-      kitty
       numbat
     ];
   };
