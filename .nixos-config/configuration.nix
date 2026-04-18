@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -27,6 +27,9 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
+  programs.hyprland.enable = true;
+  system.nixos.tags = [ "with-hyprland" ];
+
   # TODO: am i using this?
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
@@ -35,8 +38,10 @@
     variant = "";
   };
 
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+
+  services.displayManager.ly.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   services.printing.enable = true;
 
@@ -89,20 +94,27 @@
       git
       alacritty
       wl-clipboard
+      hyprpolkitagent
+      hyprland-qt-support
+      hyprlauncher
+      xdg-desktop-portal-hyprland
+      playerctl
+      bluetui
+      inputs.hyprshutdown.packages.x86_64-linux.hyprshutdown
     ];
-    plasma6.excludePackages = with pkgs.kdePackages; [
-      discover
-      konsole
-      drkonqi
-      elisa
-      gwenview
-      khelpcenter
-      kate
-      kinfocenter
-      okular
-      pkgs.xterm
-      kmenuedit
-    ];
+    # plasma6.excludePackages = with pkgs.kdePackages; [
+    #   discover
+    #   konsole
+    #   drkonqi
+    #   elisa
+    #   gwenview
+    #   khelpcenter
+    #   kate
+    #   kinfocenter
+    #   okular
+    #   pkgs.xterm
+    #   kmenuedit
+    # ];
     variables = {
       VISUAL = "hx";
     };
@@ -114,7 +126,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       discord
-      spotify
+      spotify-player
       prismlauncher
       osu-lazer-bin
       libreoffice
