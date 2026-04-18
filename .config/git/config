@@ -1,0 +1,7 @@
+[init]
+	defaultBranch = main
+[user]
+	email = quest4ione@gmail.com
+	name = quest4ione
+[push]
+	autoSetupRemote = true
