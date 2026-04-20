@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   imports =
@@ -27,8 +27,17 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  programs.hyprland.enable = true;
-  system.nixos.tags = [ "with-hyprland" ];
+  fonts = {
+    packages = with pkgs; [
+      nerd-fonts.iosevka-term
+    ];
+  };
+
+  programs.hyprland = {
+    enable = true;
+    package = pkgs-unstable.hyprland;
+  };
+  system.nixos.tags = [ "with-hyprland-latest" ];
 
   # TODO: am i using this?
   # You can disable this if you're only using the Wayland session.
@@ -43,10 +52,9 @@
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true; # used by pulseaudio
+  security.rtkit.enable = true; # used by pipewire
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -83,38 +91,36 @@
     };
   };
 
-  programs.steam.enable = true;
+  programs.gamescope.enable = true;
+  programs.steam = {
+    enable = true;
+  };
   programs.firefox.enable = true;
   programs.thunderbird.enable = true;
 
+  programs.waybar.enable = true;
+
   environment = {
     systemPackages = with pkgs; [
+      # required apps for system usage
       wget
       helix
       git
       alacritty
+      # wayland
       wl-clipboard
+      # hyperland
       hyprpolkitagent
       hyprland-qt-support
       hyprlauncher
       xdg-desktop-portal-hyprland
+      hyprnotify
+      pkgs-unstable.hyprshutdown
+      # i/o stuffs
       playerctl
       bluetui
-      inputs.hyprshutdown.packages.x86_64-linux.hyprshutdown
+      wiremix
     ];
-    # plasma6.excludePackages = with pkgs.kdePackages; [
-    #   discover
-    #   konsole
-    #   drkonqi
-    #   elisa
-    #   gwenview
-    #   khelpcenter
-    #   kate
-    #   kinfocenter
-    #   okular
-    #   pkgs.xterm
-    #   kmenuedit
-    # ];
     variables = {
       VISUAL = "hx";
     };

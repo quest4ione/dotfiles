@@ -3,19 +3,24 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    hyprshutdown.url = "github:hyprwm/hyprshutdown/v0.1.0";
-    hyprshutdown.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { nixpkgs, ... }@inputs: {
-    nixosConfigurations = {
-      quest-laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-        ];
-        specialArgs.inputs = inputs;
+  outputs = { nixpkgs, nixpkgs-unstable, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+    in {
+      nixosConfigurations = {
+        quest-laptop = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./configuration.nix
+          ];
+          specialArgs = {
+            inherit pkgs-unstable;
+          };
+        };
       };
     };
-  };
 }
