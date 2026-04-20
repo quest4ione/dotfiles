@@ -14,3 +14,6 @@ hidden = false
 
 [keys.normal.space]
 l = ":lsp-workspace-command"
+
+[keys.insert]
+"C-c" = "normal_mode" # failsafe
