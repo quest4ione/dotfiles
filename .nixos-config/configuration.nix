@@ -112,7 +112,7 @@
       # hyperland
       hyprpolkitagent
       hyprland-qt-support
-      hyprlauncher
+      pkgs-unstable.hyprlauncher
       xdg-desktop-portal-hyprland
       hyprnotify
       pkgs-unstable.hyprshutdown
